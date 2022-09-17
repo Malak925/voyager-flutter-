@@ -53,9 +53,101 @@ class _SignInState extends State<SignIn> {
             Color.fromARGB(255, 230, 141, 171),
             Color.fromARGB(255, 167, 0, 193),
           ])),
-          child: Column(
-            children: [],
-          ),
+          child: ListView(children: [
+            Column(
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.all(20),
+                    hintText: 'Name',
+                    label: Text(
+                      "Voyager",
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                  ),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.all(20),
+                    hintText: 'Voyager@gmail.com',
+                    label: Text(
+                      "Email",
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                  ),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.all(20),
+                    hintText: '079000000',
+                    label: Text(
+                      "Phone Number",
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                  ),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.all(20),
+                    hintText: '*****',
+                    label: Text(
+                      "Password",
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                      textDirection: TextDirection.rtl,
+                    ),
+                  ),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                  ),
+                  obscureText: true,
+                ),
+                TextButton.icon(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return MyApp();
+                      }));
+                    },
+                    icon: Icon(
+                      Icons.start,
+                      color: Colors.purple,
+                    ),
+                    label: Text(
+                      "Become a VOYAGER!",
+                      style: TextStyle(fontSize: 30),
+                    ))
+              ],
+            ),
+          ]),
         ));
   }
 }

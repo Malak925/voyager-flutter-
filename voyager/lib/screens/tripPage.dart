@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:voyager/main.dart';
+import 'package:voyager/screens/Main_page.dart';
 import 'package:voyager/screens/generateCode.dart';
+import 'package:voyager/screens/sign_in.dart';
 
 class TripPage extends StatefulWidget {
   const TripPage({super.key});
@@ -25,6 +27,15 @@ class _TripPageState extends State<TripPage> {
               fontSize: 40,
             ),
           ),
+          // bottom: TabBar(tabs: [
+          //   Tab(
+          //     icon: Icon(
+          //       Icons.people,
+          //       color: Colors.purple,
+          //     ),
+          //     child: Container(),
+          //   ),
+          // ]),
         ),
         drawer: Drawer(
           backgroundColor: Color.fromARGB(255, 247, 145, 179),
@@ -32,7 +43,7 @@ class _TripPageState extends State<TripPage> {
             onPressed: () {
               setState(() {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return TripPage();
+                  return MainPage();
                 }));
               });
             },
@@ -58,33 +69,7 @@ class _TripPageState extends State<TripPage> {
           ])),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton.icon(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return GenerateCode();
-                    }));
-                  },
-                  icon: Icon(
-                    Icons.create,
-                    color: Colors.purple,
-                  ),
-                  label: Text(
-                    "Create a trip",
-                    style: TextStyle(fontSize: 50),
-                  )),
-              TextButton.icon(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.join_full,
-                    color: Colors.purple,
-                  ),
-                  label: Text(
-                    "Join a trip",
-                    style: TextStyle(fontSize: 50),
-                  ))
-            ],
+            children: [],
           ),
         ));
   }
