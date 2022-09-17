@@ -1,24 +1,29 @@
-import 'dart:ui';
+import 'dart:math';
+
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:voyager/main.dart';
-import 'package:voyager/screens/generateCode.dart';
+import 'package:voyager/screens/Main_page.dart';
+import 'package:voyager/screens/tripPage.dart';
 
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+class GenerateCode extends StatefulWidget {
+  const GenerateCode({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  State<GenerateCode> createState() => _GenerateCodeState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _GenerateCodeState extends State<GenerateCode> {
+  String generated_code = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 245, 153, 183),
           title: Text(
-            "Lets Go! Voyager",
+            "Lets Get Going!",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.purple,
@@ -32,7 +37,7 @@ class _MainPageState extends State<MainPage> {
             onPressed: () {
               setState(() {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return MyApp();
+                  return MainPage();
                 }));
               });
             },
@@ -41,7 +46,7 @@ class _MainPageState extends State<MainPage> {
               color: Colors.purple,
             ),
             label: Text(
-              "Exit",
+              "Back",
               style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
             ),
           ),
@@ -59,33 +64,61 @@ class _MainPageState extends State<MainPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(
+                generated_code,
+                style: TextStyle(backgroundColor: Colors.white, fontSize: 30),
+              ),
+              TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      generated_code = getBase64RandomString(8);
+                    });
+                  },
+                  icon: Icon(
+                    Icons.generating_tokens,
+                    color: Colors.purple,
+                  ),
+                  label: Text(
+                    "Generate",
+                    style: TextStyle(fontSize: 50),
+                  )),
+              TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      Clipboard.setData(ClipboardData(text: generated_code));
+                    });
+                  },
+                  icon: Icon(
+                    Icons.copy,
+                    color: Colors.purple,
+                  ),
+                  label: Text(
+                    "copy",
+                    style: TextStyle(fontSize: 50),
+                  )),
               TextButton.icon(
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return GenerateCode();
+                      return TripPage();
                     }));
                   },
                   icon: Icon(
-                    Icons.create,
+                    Icons.done_sharp,
                     color: Colors.purple,
                   ),
                   label: Text(
-                    "Create a trip",
-                    style: TextStyle(fontSize: 50),
-                  )),
-              TextButton.icon(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.join_full,
-                    color: Colors.purple,
-                  ),
-                  label: Text(
-                    "Join a trip",
-                    style: TextStyle(fontSize: 50),
+                    "Done",
+                    style: TextStyle(fontSize: 30),
                   ))
             ],
           ),
         ));
+  }
+
+  String getBase64RandomString(int length) {
+    var random = Random.secure();
+    var values = List<int>.generate(length, (i) => random.nextInt(255));
+    return base64UrlEncode(values);
   }
 }

@@ -4,21 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:voyager/main.dart';
 import 'package:voyager/screens/generateCode.dart';
 
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+class TripPage extends StatefulWidget {
+  const TripPage({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  State<TripPage> createState() => _TripPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _TripPageState extends State<TripPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 245, 153, 183),
           title: Text(
-            "Lets Go! Voyager",
+            "The Voyage",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.purple,
@@ -32,7 +32,7 @@ class _MainPageState extends State<MainPage> {
             onPressed: () {
               setState(() {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return MyApp();
+                  return TripPage();
                 }));
               });
             },
