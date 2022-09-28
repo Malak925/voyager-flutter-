@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:voyager/screens/Main_page.dart';
 import 'package:voyager/screens/sign_in.dart';
 
@@ -28,6 +29,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String Email = "Malakdawod925@gmail.com";
+  String Password = "987654321";
+  String Email2 = "";
+  String password2 = "";
+  bool pass = true;
+  final textcont = TextEditingController();
+  final textcont2 = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,6 +69,7 @@ class _HomeState extends State<Home> {
               padding: EdgeInsets.all(0),
             ),
             TextField(
+              controller: textcont,
               decoration: InputDecoration(
                 border: OutlineInputBorder(gapPadding: 10),
                 filled: true,
@@ -72,6 +82,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             TextField(
+              controller: textcont2,
               decoration: InputDecoration(
                 border: OutlineInputBorder(gapPadding: 10),
                 filled: true,
@@ -81,14 +92,42 @@ class _HomeState extends State<Home> {
                 // border: InputBorder.none,
                 hintText: 'Password',
                 labelText: 'Your Key',
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      if (pass == true) {
+                        pass = false;
+                      } else {
+                        pass = true;
+                      }
+                    });
+                  },
+                  icon: Icon(Ionicons.eye),
+                ),
               ),
+              obscureText: pass,
             ),
             TextButton.icon(
               onPressed: () {
                 setState(() {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return MainPage();
-                  }));
+                  if (Email == textcont.text && Password == textcont2.text) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return MainPage();
+                    }));
+                  } else {
+                    textcont.clear();
+                    textcont2.clear();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          content: Text("please enter the correct data"),
+                          title: Text("wrong email or password!!!"),
+                        );
+                      },
+                    );
+                  }
                 });
               },
               icon: Icon(
