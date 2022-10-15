@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "512216865859",
+    "project_id": "flutter-voyager",
+    "storage_bucket": "flutter-voyager.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512216865859:android:8c1150103c977cb14508f6",
+        "android_client_info": {
+          "package_name": "com.example.voyager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512216865859-5g543nl0i0vp5uic51v7jn068clsnptv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASJNQwIfbdW4ObkOP-aq4l39wDvXE8XdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512216865859-5g543nl0i0vp5uic51v7jn068clsnptv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

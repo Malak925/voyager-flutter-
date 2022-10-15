@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>512216865859-h0sau6gdj3t9168d3ai5a6l4e8jtois7.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.512216865859-h0sau6gdj3t9168d3ai5a6l4e8jtois7</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAZj8MMyzpYDRNIBtQmzeqOwkPoX7L2vQc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>512216865859</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.voyager</string>
+	<key>PROJECT_ID</key>
+	<string>flutter-voyager</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flutter-voyager.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:512216865859:ios:2acc55c75a9ba2e94508f6</string>
+</dict>
+</plist>

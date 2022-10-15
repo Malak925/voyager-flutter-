@@ -1,5 +1,14 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:voyager/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:voyager/firebase_options.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -9,6 +18,28 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  TextEditingController email = TextEditingController();
+  TextEditingController pass = TextEditingController();
+
+  TextEditingController phone = TextEditingController();
+
+  TextEditingController name = TextEditingController();
+  // Map <String,dynamic> user = {"Name":Text(""), "Phone Number": phone.text};
+  File? image;
+  Future _pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+
+      if (image == null) return;
+
+      final imageTemp = File(image.path);
+
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +87,29 @@ class _SignInState extends State<SignIn> {
           child: ListView(children: [
             Column(
               children: [
+                image != null
+                    ? Image.file(
+                        image!,
+                        width: 200,
+                        height: 200,
+                      )
+                    : Image.network(
+                        "https://thumbs.dreamstime.com/b/man-icon-profile-member-user-perconal-symbol-vector-white-isolated-background-141728154.jpg",
+                        width: 200,
+                        height: 200,
+                      ),
+                TextButton.icon(
+                  onPressed: () {
+                    _pickImage();
+                  },
+                  label: Text(
+                    "upload picture",
+                    style: TextStyle(color: Colors.white, fontSize: 40),
+                  ),
+                  icon: Icon(Icons.image),
+                ),
                 TextField(
+                  controller: name,
                   decoration: InputDecoration(
                     fillColor: Colors.white,
                     contentPadding: EdgeInsets.all(20),
@@ -75,6 +128,7 @@ class _SignInState extends State<SignIn> {
                   ),
                 ),
                 TextField(
+                  controller: email,
                   decoration: InputDecoration(
                     fillColor: Colors.white,
                     contentPadding: EdgeInsets.all(20),
@@ -93,6 +147,7 @@ class _SignInState extends State<SignIn> {
                   ),
                 ),
                 TextField(
+                  controller: phone,
                   decoration: InputDecoration(
                     fillColor: Colors.white,
                     contentPadding: EdgeInsets.all(20),
@@ -111,6 +166,7 @@ class _SignInState extends State<SignIn> {
                   ),
                 ),
                 TextField(
+                  controller: pass,
                   decoration: InputDecoration(
                     fillColor: Colors.white,
                     contentPadding: EdgeInsets.all(20),
@@ -131,11 +187,35 @@ class _SignInState extends State<SignIn> {
                   obscureText: true,
                 ),
                 TextButton.icon(
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return MyApp();
-                      }));
+                    onPressed: () async {
+                      try {
+                        FirebaseFirestore db = FirebaseFirestore.instance;
+
+                        var authobj = FirebaseAuth.instance;
+                        UserCredential myVoyager =
+                            await authobj.createUserWithEmailAndPassword(
+                                email: email.text, password: pass.text);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("You Became a Voyager!")));
+                        Map<String, dynamic> userInfo = {
+                          "Name": name.text,
+                          "phone": phone.text,
+                          "Email": email.text,
+                          "Password": pass.text,
+                          // "picture": image,
+                        };
+                        db.collection("users").add(userInfo).then(
+                            (DocumentReference doc) => print(
+                                'DocumentSnapshot added with ID: ${doc.id}'));
+
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return MyApp();
+                        }));
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Try again!")));
+                      }
                     },
                     icon: Icon(
                       Icons.start,

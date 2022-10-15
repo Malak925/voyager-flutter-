@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:voyager/main.dart';
 import 'package:voyager/screens/generateCode.dart';
@@ -12,6 +14,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,22 +32,37 @@ class _MainPageState extends State<MainPage> {
         ),
         drawer: Drawer(
           backgroundColor: Color.fromARGB(255, 247, 145, 179),
-          child: TextButton.icon(
-            onPressed: () {
-              setState(() {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return MyApp();
-                }));
-              });
-            },
-            icon: Icon(
-              Icons.exit_to_app,
-              color: Colors.purple,
-            ),
-            label: Text(
-              "Exit",
-              style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
-            ),
+          child: Column(
+            children: [
+// var docRef = db.collection("users").doc(doc.id);
+
+// // Source can be CACHE, SERVER, or DEFAULT.
+// const source = Source.cache;
+
+// docRef.get(const GetOptions(source: source)).then(
+//       (res) => print("Successfully completed"),
+//       onError: (e) => print("Error completing: $e"),
+//     );
+
+              TextButton.icon(
+                onPressed: () {
+                  setState(() {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return MyApp();
+                    }));
+                  });
+                },
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.purple,
+                ),
+                label: Text(
+                  "Exit",
+                  style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+                ),
+              ),
+            ],
           ),
         ),
         body: Container(
