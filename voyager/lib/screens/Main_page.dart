@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:voyager/main.dart';
+import 'package:voyager/screens/Join.dart';
+import 'package:voyager/screens/TripCreation.dart';
 import 'package:voyager/screens/generateCode.dart';
 
 class MainPage extends StatefulWidget {
@@ -33,17 +35,8 @@ class _MainPageState extends State<MainPage> {
         drawer: Drawer(
           backgroundColor: Color.fromARGB(255, 247, 145, 179),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-// var docRef = db.collection("users").doc(doc.id);
-
-// // Source can be CACHE, SERVER, or DEFAULT.
-// const source = Source.cache;
-
-// docRef.get(const GetOptions(source: source)).then(
-//       (res) => print("Successfully completed"),
-//       onError: (e) => print("Error completing: $e"),
-//     );
-
               TextButton.icon(
                 onPressed: () {
                   setState(() {
@@ -82,7 +75,7 @@ class _MainPageState extends State<MainPage> {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return GenerateCode();
+                      return TripCreation();
                     }));
                   },
                   icon: Icon(
@@ -94,7 +87,12 @@ class _MainPageState extends State<MainPage> {
                     style: TextStyle(fontSize: 50),
                   )),
               TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return JoinTrip();
+                    }));
+                  },
                   icon: Icon(
                     Icons.join_full,
                     color: Colors.purple,

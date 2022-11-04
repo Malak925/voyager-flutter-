@@ -9,10 +9,6 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-// Ideal time to initialize
-// await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-//...
   runApp(MaterialApp(
     theme: ThemeData(
       fontFamily: 'AmaticSC-Bold',
@@ -38,9 +34,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // String Email = "Malakdawod925@gmail.com";
-  // String Password = "987654321";
-
   bool pass = true;
   TextEditingController email = TextEditingController();
   TextEditingController passcnt = TextEditingController();
@@ -82,9 +75,6 @@ class _HomeState extends State<Home> {
                   border: OutlineInputBorder(gapPadding: 10),
                   filled: true,
                   fillColor: Colors.white,
-                  // contentPadding: EdgeInsets.symmetric(horizontal: 180),
-
-                  // border: InputBorder.none,
                   hintText: 'Email',
                   labelText: 'voyager',
                   prefixIcon: Icon(Ionicons.people)),
@@ -94,11 +84,7 @@ class _HomeState extends State<Home> {
               decoration: InputDecoration(
                 border: OutlineInputBorder(gapPadding: 10),
                 filled: true,
-
                 fillColor: Colors.white,
-                // contentPadding: EdgeInsets.symmetric(horizontal: 180),
-
-                // border: InputBorder.none,
                 hintText: 'Password',
                 labelText: 'Your Key',
                 prefixIcon: Icon(Ionicons.lock_closed),
@@ -133,40 +119,6 @@ class _HomeState extends State<Home> {
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: Text("Try again!")));
                 }
-
-                // setState(() {
-                //   if (Email == textcont.text && Password == textcont2.text) {
-                //     Navigator.push(context,
-                //         MaterialPageRoute(builder: (context) {
-                //       return MainPage();
-                //     }));
-                //   } else {
-                //     textcont.clear();
-                //     textcont2.clear();
-                //     showDialog(
-                //       context: context,
-                //       builder: (BuildContext context) {
-                //         return AlertDialog(
-                //           backgroundColor: Color.fromARGB(255, 230, 141, 171),
-                //           content: Text(
-                //             "please enter the correct data",
-                //             style: TextStyle(
-                //                 color: Colors.purple,
-                //                 fontSize: 40,
-                //                 fontWeight: FontWeight.bold),
-                //           ),
-                //           title: Text(
-                //             "wrong email or password!!!",
-                //             style: TextStyle(
-                //                 color: Colors.white,
-                //                 fontSize: 20,
-                //                 fontWeight: FontWeight.bold),
-                //           ),
-                //         );
-                //       },
-                //     );
-                //   }
-                // });
               },
               icon: Icon(
                 Icons.login,

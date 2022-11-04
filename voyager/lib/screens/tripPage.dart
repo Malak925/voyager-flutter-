@@ -1,16 +1,23 @@
-// import 'dart:html';
-// import 'dart:io';
-// import 'dart:ui';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+
 // import 'package:image_picker/image_picker.dart';
 import 'package:ionicons/ionicons.dart';
-// import 'package:voyager/main.dart';
+
 import 'package:voyager/models/urlModels.dart';
+import 'package:voyager/screens/Bills.dart';
 import 'package:voyager/screens/Main_page.dart';
-// import 'package:voyager/screens/generateCode.dart';
-// import 'package:voyager/screens/sign_in.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:voyager/screens/Share.dart';
+import 'package:voyager/screens/TripDetails.dart';
+import 'package:voyager/screens/UploadImage.dart';
+import 'package:voyager/screens/comment.dart';
+import 'package:voyager/screens/history.dart';
+import 'package:voyager/screens/participants.dart';
+import 'package:voyager/screens/profile.dart';
 
 class TripPage extends StatefulWidget {
   const TripPage({super.key});
@@ -26,6 +33,16 @@ class _TripPageState extends State<TripPage> {
       length: 5,
       child: Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  UrlLauncher.launch("tel://911");
+                },
+                icon: Icon(
+                  Icons.call,
+                  color: Colors.red,
+                ))
+          ],
           backgroundColor: Color.fromARGB(255, 245, 153, 183),
           title: Text(
             "The Voyage",
@@ -70,152 +87,141 @@ class _TripPageState extends State<TripPage> {
         ),
         drawer: Drawer(
           backgroundColor: Color.fromARGB(255, 247, 145, 179),
-          child: TextButton.icon(
-            onPressed: () {
-              setState(() {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return MainPage();
-                }));
-              });
-            },
-            icon: Icon(
-              Icons.exit_to_app,
-              color: Colors.purple,
-            ),
-            label: Text(
-              "Exit",
-              style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
-            ),
+          child: Column(
+            children: [
+              DrawerHeader(
+                  child: Column(
+                children: [
+                  Image.network(
+                    "https://flyclipart.com/thumb2/purple-camera-clip-art-594601.png",
+                    width: 50,
+                    height: 50,
+                  ),
+                  Text("Name"),
+                  Text("Email"),
+                  Text("Phone Number")
+                ],
+              )),
+              TextButton.icon(
+                onPressed: () {
+                  setState(() {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return Profile();
+                    }));
+                  });
+                },
+                icon: Icon(
+                  Icons.person,
+                  color: Colors.purple,
+                ),
+                label: Text(
+                  "Profile",
+                  style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+                ),
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  setState(() {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return History();
+                    }));
+                  });
+                },
+                icon: Icon(
+                  Icons.history,
+                  color: Colors.purple,
+                ),
+                label: Text(
+                  "Old trips",
+                  style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+                ),
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  setState(() {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return Comment_on_trip();
+                    }));
+                  });
+                },
+                icon: Icon(
+                  Icons.comment,
+                  color: Colors.purple,
+                ),
+                label: Text(
+                  "Comment On trip",
+                  style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+                ),
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  setState(() {
+                    Navigator.pop(context);
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Are you Sure you want to end trip?"),
+                            content: Row(children: [
+                              TextButton(
+                                onPressed: () {},
+                                child: Text("Yes"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("No"),
+                              )
+                            ]),
+                          );
+                        });
+                  });
+                },
+                icon: Icon(
+                  Icons.close,
+                  color: Colors.purple,
+                ),
+                label: Text(
+                  "End trip",
+                  style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+                ),
+              ),
+              SizedBox(
+                height: 100,
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  setState(() {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return MainPage();
+                    }));
+                  });
+                },
+                icon: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.purple,
+                ),
+                label: Text(
+                  "Exit",
+                  style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+                ),
+              ),
+            ],
           ),
         ),
         body: TabBarView(children: [
-          Container(
-            width: 600,
-            decoration: BoxDecoration(
-                gradient: SweepGradient(colors: [
-              Color.fromARGB(255, 162, 0, 187),
-              Color.fromARGB(255, 230, 141, 171),
-              Colors.purple,
-              Color.fromARGB(255, 230, 141, 171),
-              Color.fromARGB(255, 167, 0, 193),
-            ])),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Trip details",
-                  style: TextStyle(color: Colors.white, fontSize: 40),
-                )
-              ],
-            ),
-          ),
-          Container(
-            width: 600,
-            decoration: BoxDecoration(
-                gradient: SweepGradient(colors: [
-              Color.fromARGB(255, 162, 0, 187),
-              Color.fromARGB(255, 230, 141, 171),
-              Colors.purple,
-              Color.fromARGB(255, 230, 141, 171),
-              Color.fromARGB(255, 167, 0, 193),
-            ])),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "people",
-                  style: TextStyle(color: Colors.white, fontSize: 40),
-                )
-              ],
-            ),
-          ),
-          Container(
-            width: 600,
-            decoration: BoxDecoration(
-                gradient: SweepGradient(colors: [
-              Color.fromARGB(255, 162, 0, 187),
-              Color.fromARGB(255, 230, 141, 171),
-              Colors.purple,
-              Color.fromARGB(255, 230, 141, 171),
-              Color.fromARGB(255, 167, 0, 193),
-            ])),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Uploud your picture",
-                  style: TextStyle(color: Colors.white, fontSize: 40),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: 600,
-            decoration: BoxDecoration(
-                gradient: SweepGradient(colors: [
-              Color.fromARGB(255, 162, 0, 187),
-              Color.fromARGB(255, 230, 141, 171),
-              Colors.purple,
-              Color.fromARGB(255, 230, 141, 171),
-              Color.fromARGB(255, 167, 0, 193),
-            ])),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "bill",
-                  style: TextStyle(color: Colors.white, fontSize: 40),
-                )
-              ],
-            ),
-          ),
-          Container(
-            width: 600,
-            decoration: BoxDecoration(
-                gradient: SweepGradient(colors: [
-              Color.fromARGB(255, 162, 0, 187),
-              Color.fromARGB(255, 230, 141, 171),
-              Colors.purple,
-              Color.fromARGB(255, 230, 141, 171),
-              Color.fromARGB(255, 167, 0, 193),
-            ])),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "share your trip code",
-                  style: TextStyle(color: Colors.white, fontSize: 40),
-                ),
-                URlClass(
-                    myfunction: LancherURLf,
-                    linkIcon: Ionicons.logo_facebook,
-                    linkExp: "share your trip code",
-                    linkTitle: "FaceBook"),
-                URlClass(
-                    myfunction: LancherURLI,
-                    linkIcon: Ionicons.logo_instagram,
-                    linkExp: "share your trip code",
-                    linkTitle: "Instagram"),
-              ],
-            ),
-          )
+          TripDetails(),
+          Participants(),
+          UploadImage(),
+          Bills(),
+          Share(),
         ]),
       ),
     );
   }
 }
-/*Container(
-            width: 600,
-            decoration: BoxDecoration(
-                gradient: SweepGradient(colors: [
-              Color.fromARGB(255, 162, 0, 187),
-              Color.fromARGB(255, 230, 141, 171),
-              Colors.purple,
-              Color.fromARGB(255, 230, 141, 171),
-              Color.fromARGB(255, 167, 0, 193),
-            ])),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [],
-            ),
-          )*/
