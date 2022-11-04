@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:voyager/screens/generateCode.dart';
 
@@ -9,6 +10,9 @@ class TripCreation extends StatefulWidget {
 }
 
 class _TripCreationState extends State<TripCreation> {
+  TextEditingController trip_name = TextEditingController();
+  TextEditingController trip_cap = TextEditingController();
+  TextEditingController trip_dis = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +40,7 @@ class _TripCreationState extends State<TripCreation> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              controller: trip_name,
               decoration: InputDecoration(
                   hintText: 'Trip name',
                   icon: Icon(Icons.trip_origin_rounded),
@@ -44,6 +49,7 @@ class _TripCreationState extends State<TripCreation> {
                   fillColor: Colors.white),
             ),
             TextField(
+              controller: trip_cap,
               decoration: InputDecoration(
                   hintText: 'Cpacity',
                   icon: Icon(Icons.people),
@@ -53,6 +59,7 @@ class _TripCreationState extends State<TripCreation> {
               keyboardType: TextInputType.number,
             ),
             TextField(
+              controller: trip_dis,
               decoration: InputDecoration(
                   hintText: 'Discription',
                   icon: Icon(Icons.comment),
@@ -69,11 +76,34 @@ class _TripCreationState extends State<TripCreation> {
                   width: 40,
                 ),
                 ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      try {
+                        FirebaseFirestore db = FirebaseFirestore.instance;
+
+                        Map<String, dynamic> userInfo = {
+                          "tripName": trip_name.text,
+                          "cap": trip_cap.text,
+                          "dis": trip_dis.text,
+                        };
+
+                        db.collection("trips").add(userInfo).then(
+                            (DocumentReference doc) => print(
+                                'DocumentSnapshot added with ID: ${doc.id}'));
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("trip created succecfully")));
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Try again!")));
+                      }
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return GenerateCode();
                       }));
+                      setState(() {
+                        trip_cap.clear();
+                        trip_dis.clear();
+                        trip_name.clear();
+                      });
                     },
                     child: Text("Generate Code"))
               ],

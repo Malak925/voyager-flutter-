@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Bills extends StatefulWidget {
@@ -8,6 +10,8 @@ class Bills extends StatefulWidget {
 }
 
 class _BillsState extends State<Bills> {
+  TextEditingController bill_name = TextEditingController();
+  TextEditingController amount = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +29,7 @@ class _BillsState extends State<Bills> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              controller: bill_name,
               decoration: InputDecoration(
                   hintText: 'Bill name',
                   icon: Icon(Icons.trip_origin_rounded),
@@ -33,6 +38,7 @@ class _BillsState extends State<Bills> {
                   fillColor: Colors.white),
             ),
             TextField(
+              controller: amount,
               decoration: InputDecoration(
                   hintText: 'Amount',
                   icon: Icon(Icons.people),
@@ -42,7 +48,24 @@ class _BillsState extends State<Bills> {
               keyboardType: TextInputType.number,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                try {
+                  FirebaseFirestore db = FirebaseFirestore.instance;
+
+                  Map<String, dynamic> userInfo = {
+                    "billName": bill_name.text,
+                    "amount": amount.text
+                  };
+                  db.collection("Bills").add(userInfo).then(
+                      (DocumentReference doc) =>
+                          print('DocumentSnapshot added with ID: ${doc.id}'));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Bill Added succecfully")));
+                } catch (e) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text("Try again!")));
+                }
+              },
               child: Text("Upload"),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
             )
