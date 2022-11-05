@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,6 +30,11 @@ class TripPage extends StatefulWidget {
 }
 
 class _TripPageState extends State<TripPage> {
+  final currentUser = FirebaseAuth.instance;
+  String email = "r";
+  String phoneNum = "t";
+  String name = "one";
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -87,128 +95,173 @@ class _TripPageState extends State<TripPage> {
         ),
         drawer: Drawer(
           backgroundColor: Color.fromARGB(255, 247, 145, 179),
-          child: Column(
+          child: Stack(
             children: [
-              DrawerHeader(
-                  child: Column(
-                children: [
-                  Image.network(
-                    "https://flyclipart.com/thumb2/purple-camera-clip-art-594601.png",
-                    width: 50,
-                    height: 50,
+              StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("users")
+                    .where("uid", isEqualTo: currentUser.currentUser!.uid)
+                    .snapshots(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        QueryDocumentSnapshot x = snapshot.data!.docs[index];
+                        return Container(
+                            child: DrawerHeader(
+                          child: Column(children: [
+                            Image.network(
+                              "https://flyclipart.com/thumb2/purple-camera-clip-art-594601.png",
+                              width: 50,
+                              height: 50,
+                            ),
+                            Text(x['Email']),
+                            Text(x['Name']),
+                            Text(x['phone'])
+                          ]),
+                        ));
+                      },
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
+              // DrawerHeader(
+              //     child: Column(
+              //   children: [
+
+              //     Text(name),
+              //     Text(email),
+              //     Text(phoneNum)
+              //   ],
+              // )),
+              Positioned(
+                top: 200,
+                child: TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return Profile();
+                      }));
+                    });
+                  },
+                  icon: Icon(
+                    Icons.person,
+                    color: Colors.purple,
                   ),
-                  Text("Name"),
-                  Text("Email"),
-                  Text("Phone Number")
-                ],
-              )),
-              TextButton.icon(
-                onPressed: () {
-                  setState(() {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return Profile();
-                    }));
-                  });
-                },
-                icon: Icon(
-                  Icons.person,
-                  color: Colors.purple,
-                ),
-                label: Text(
-                  "Profile",
-                  style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+                  label: Text(
+                    "Profile",
+                    style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+                  ),
                 ),
               ),
-              TextButton.icon(
-                onPressed: () {
-                  setState(() {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return History();
-                    }));
-                  });
-                },
-                icon: Icon(
-                  Icons.history,
-                  color: Colors.purple,
-                ),
-                label: Text(
-                  "Old trips",
-                  style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
-                ),
-              ),
-              TextButton.icon(
-                onPressed: () {
-                  setState(() {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return Comment_on_trip();
-                    }));
-                  });
-                },
-                icon: Icon(
-                  Icons.comment,
-                  color: Colors.purple,
-                ),
-                label: Text(
-                  "Comment On trip",
-                  style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+              Positioned(
+                top: 250,
+                child: TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return History();
+                      }));
+                    });
+                  },
+                  icon: Icon(
+                    Icons.history,
+                    color: Colors.purple,
+                  ),
+                  label: Text(
+                    "Old trips",
+                    style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+                  ),
                 ),
               ),
-              TextButton.icon(
-                onPressed: () {
-                  setState(() {
-                    Navigator.pop(context);
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text("Are you Sure you want to end trip?"),
-                            content: Row(children: [
-                              TextButton(
-                                onPressed: () {},
-                                child: Text("Yes"),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text("No"),
-                              )
-                            ]),
-                          );
-                        });
-                  });
-                },
-                icon: Icon(
-                  Icons.close,
-                  color: Colors.purple,
+              Positioned(
+                top: 300,
+                child: TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return Comment_on_trip();
+                      }));
+                    });
+                  },
+                  icon: Icon(
+                    Icons.comment,
+                    color: Colors.purple,
+                  ),
+                  label: Text(
+                    "Comment On trip",
+                    style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+                  ),
                 ),
-                label: Text(
-                  "End trip",
-                  style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+              ),
+              Positioned(
+                top: 350,
+                child: TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pop(context);
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Are you Sure you want to end trip?"),
+                              content: Row(children: [
+                                TextButton(
+                                  onPressed: () {
+                                    read_data();
+                                  },
+                                  child: Text("Yes"),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("No"),
+                                )
+                              ]),
+                            );
+                          });
+                    });
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    color: Colors.purple,
+                  ),
+                  label: Text(
+                    "End trip",
+                    style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+                  ),
                 ),
               ),
               SizedBox(
                 height: 100,
               ),
-              TextButton.icon(
-                onPressed: () {
-                  setState(() {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return MainPage();
-                    }));
-                  });
-                },
-                icon: Icon(
-                  Icons.exit_to_app,
-                  color: Colors.purple,
-                ),
-                label: Text(
-                  "Exit",
-                  style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+              Positioned(
+                top: 600,
+                child: TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return MainPage();
+                      }));
+                    });
+                  },
+                  icon: Icon(
+                    Icons.exit_to_app,
+                    color: Colors.purple,
+                  ),
+                  label: Text(
+                    "Exit",
+                    style: TextStyle(color: Color.fromARGB(255, 245, 206, 252)),
+                  ),
                 ),
               ),
             ],
@@ -224,4 +277,6 @@ class _TripPageState extends State<TripPage> {
       ),
     );
   }
+
+  read_data() async {}
 }

@@ -202,6 +202,7 @@ class _SignInState extends State<SignIn> {
                           "phone": phone.text,
                           "Email": email.text,
                           "Password": pass.text,
+                          "uid": authobj.currentUser!.uid,
                           // "picture": image,
                         };
                         db.collection("users").add(userInfo).then(
